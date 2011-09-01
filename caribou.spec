@@ -1,32 +1,39 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.2.00
+Version:	0.3.5
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.2/%{name}-%{version}.tar.bz2
-# Source0-md5:	fcbbc21c04479f38713cff3ac877a2e0
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.3/%{name}-%{version}.tar.bz2
+# Source0-md5:	e183a5d2afb95bea7c13dbc001e568dc
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.11
 BuildRequires:	clutter-devel >= 1.6.0
 BuildRequires:	gettext-devel
 BuildRequires:	gnome-doc-utils
+BuildRequires:	gobject-introspection-devel
+BuildRequires:	gtk+2-devel >= 2.0.0
 BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	intltool >= 0.40.0
+BuildRequires:	libgee-devel
+BuildRequires:	libxklavier-devel
+BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
 BuildRequires:	python-pygobject-devel >= 2.28.0
 BuildRequires:	rpmbuild(macros) >= 1.592
+BuildRequires:	vala
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXtst-devel
 Requires(post,postun):	glib2 >= 1:2.26.0
-Requires:	GConf2-libs
 Requires:	clutter >= 1.6.0
+Requires:	gtk+2
 Requires:	gtk+3
 Requires:	python-modules
 Requires:	python-pyatspi >= 2.0.0
 Requires:	python-pygobject >= 2.28.0
-BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -64,17 +71,29 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %post
+/sbin/ldconfig
 %glib_compile_schemas
 
 %postun
+/sbin/ldconfig
 %glib_compile_schemas
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/caribou
+%attr(755,root,root) %{_bindir}/caribou-preferences
+%attr(755,root,root) %{_libexecdir}/antler-keyboard
+%attr(755,root,root) %{_libdir}/libcaribou.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcaribou.so.0
+%attr(755,root,root) %ghost %{_libdir}/gtk-2.0/modules/libcaribou-gtk-module.so
+%attr(755,root,root) %ghost %{_libdir}/gtk-3.0/modules/libcaribou-gtk-module.so
+%{_datadir}/antler
 %{_datadir}/caribou
+%{_datadir}/dbus-1/services/org.gnome.Caribou.Antler.service
+%{_datadir}/glib-2.0/schemas/org.gnome.antler.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.caribou.gschema.xml
 %{_desktopdir}/caribou.desktop
 %{py_sitescriptdir}/caribou
 %{_sysconfdir}/xdg/autostart/caribou-autostart.desktop
+%{_libdir}/girepository-1.0/Caribou-1.0.typelib
