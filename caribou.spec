@@ -5,8 +5,8 @@ Version:	0.3.5
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.3/%{name}-%{version}.tar.bz2
-# Source0-md5:	e183a5d2afb95bea7c13dbc001e568dc
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.3/%{name}-%{version}.tar.xz
+# Source0-md5:	72069b6941d1af349ead77337f8d1fae
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.11
