@@ -1,0 +1,11 @@
+--- caribou-0.3.91/libcaribou/Makefile.am.wiget	2011-09-07 10:20:37.606437969 +0200
++++ caribou-0.3.91/libcaribou/Makefile.am	2011-09-07 10:20:49.792646536 +0200
+@@ -63,7 +63,7 @@ Caribou-1.0.gir: _Caribou-1.0.gir
+ 	$(top_srcdir)/tools/fix_gir.py $< > $@
+ 
+ Caribou-1.0.typelib: Caribou-1.0.gir
+-	@INTROSPECTION_COMPILER@ --shared-library=libcaribou -o $@ $^
++	@INTROSPECTION_COMPILER@ --shared-library=libcaribou.so.0 -o $@ $^
+ 
+ Caribou-1.0.gir caribou-internals-1.0.vapi caribou-1.0.vapi: libcaribou.la
+ 

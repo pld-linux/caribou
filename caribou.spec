@@ -1,12 +1,13 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.3.5
+Version:	0.3.91
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.3/%{name}-%{version}.tar.xz
-# Source0-md5:	72069b6941d1af349ead77337f8d1fae
+# Source0-md5:	c91c7b722cccf66745dd6befeeb8aace
+Patch0:		soname.patch
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.11
@@ -22,18 +23,20 @@ BuildRequires:	libxklavier-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
-BuildRequires:	python-pygobject-devel >= 2.28.0
+BuildRequires:	python-pygobject3-devel >= 2.90.3
 BuildRequires:	rpmbuild(macros) >= 1.592
+BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXtst-devel
+BuildRequires:	xz
 Requires(post,postun):	glib2 >= 1:2.26.0
 Requires:	clutter >= 1.6.0
 Requires:	gtk+2
 Requires:	gtk+3
 Requires:	python-modules
 Requires:	python-pyatspi >= 2.0.0
-Requires:	python-pygobject >= 2.28.0
+Requires:	python-pygobject3 >= 2.90.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -48,8 +51,10 @@ dla użytkowników ekranów dotykowych oraz tabletów.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+%{__libtoolize}
 %{__aclocal} -I m4
 %{__autoconf}
 %{__automake}
@@ -86,8 +91,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/antler-keyboard
 %attr(755,root,root) %{_libdir}/libcaribou.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libcaribou.so.0
-%attr(755,root,root) %ghost %{_libdir}/gtk-2.0/modules/libcaribou-gtk-module.so
-%attr(755,root,root) %ghost %{_libdir}/gtk-3.0/modules/libcaribou-gtk-module.so
+%attr(755,root,root) %{_libdir}/gtk-2.0/modules/libcaribou-gtk-module.so
+%attr(755,root,root) %{_libdir}/gtk-3.0/modules/libcaribou-gtk-module.so
 %{_datadir}/antler
 %{_datadir}/caribou
 %{_datadir}/dbus-1/services/org.gnome.Caribou.Antler.service
