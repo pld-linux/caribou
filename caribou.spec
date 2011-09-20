@@ -1,13 +1,12 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.3.91
+Version:	0.3.92
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.3/%{name}-%{version}.tar.xz
-# Source0-md5:	c91c7b722cccf66745dd6befeeb8aace
-Patch0:		soname.patch
+# Source0-md5:	b016836867c4df44b434e2544eb7fbec
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1.11
@@ -51,7 +50,6 @@ dla użytkowników ekranów dotykowych oraz tabletów.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %{__libtoolize}
@@ -71,6 +69,8 @@ rm -rf $RPM_BUILD_ROOT
 %find_lang %{name}
 
 %py_postclean
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/gtk-*/modules/libcaribou-gtk-module.{a,la}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -101,4 +101,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/caribou.desktop
 %{py_sitescriptdir}/caribou
 %{_sysconfdir}/xdg/autostart/caribou-autostart.desktop
+%{_libdir}/gnome-settings-daemon-3.0/gtk-modules/caribou-gtk-module.desktop
 %{_libdir}/girepository-1.0/Caribou-1.0.typelib
