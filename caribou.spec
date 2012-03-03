@@ -2,7 +2,7 @@ Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
 Version:	0.4.1
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
@@ -31,12 +31,12 @@ BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xz
 Requires(post,postun):	glib2 >= 1:2.26.0
+Requires(postun):	/sbin/ldconfig
 Requires:	clutter >= 1.6.0
 Requires:	gobject-introspection >= 0.10.7
 Requires:	python-modules
 Requires:	python-pyatspi >= 2.2.0
 Requires:	python-pygobject3 >= 3.0.0
-Requires(postun): /sbin/ldconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -74,6 +74,7 @@ Summary:	Gtk2 im module for %{name}
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2
+Conflicts:	%{name} < 0.4.1-2
 
 %description gtk2-module
 This package contains caribou im module for Gtk2.
@@ -83,6 +84,7 @@ Summary:	Gtk3 im module for %{name}
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+3
+Conflicts:	%{name} < 0.4.1-2
 
 %description gtk3-module
 This package contains caribou im module for Gtk3.
@@ -91,6 +93,7 @@ This package contains caribou im module for Gtk3.
 Summary:	Keyboard implementation for %{name}
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
+Conflicts:	%{name} < 0.4.1-2
 
 %description antler
 This package contains caribou keyboard implementation.
