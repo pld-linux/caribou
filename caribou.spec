@@ -1,17 +1,18 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.4.4.2
+Version:	0.4.10
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
-# Source0-md5:	02f6c153723ab89f67d5644df6c27b52
+# Source0-md5:	e98d02faa135e33d6696b77aa715c4e6
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clutter-devel >= 1.6.0
 BuildRequires:	gettext-devel
+BuildRequires:	at-spi2-core-devel
 BuildRequires:	glib2-devel >= 1:2.30.0
 BuildRequires:	gobject-introspection-devel >= 0.10.7
 BuildRequires:	gtk+2-devel >= 2.0.0
@@ -145,7 +146,6 @@ fi
 %attr(755,root,root) %ghost %{_libdir}/libcaribou.so.0
 %{_datadir}/caribou
 %{_datadir}/glib-2.0/schemas/org.gnome.caribou.gschema.xml
-%{_desktopdir}/caribou.desktop
 %{_sysconfdir}/xdg/autostart/caribou-autostart.desktop
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/caribou-gtk-module.desktop
 %{_libdir}/girepository-1.0/Caribou-1.0.typelib
@@ -174,3 +174,7 @@ fi
 %attr(755,root,root) %{_libdir}/libcaribou.so
 %{_includedir}/libcaribou
 %{_datadir}/gir-1.0/Caribou-1.0.gir
+%{_pkgconfigdir}/caribou-1.0.pc
+%{_datadir}/vala/vapi/caribou-1.0.deps
+%{_datadir}/vala/vapi/caribou-1.0.vapi
+
