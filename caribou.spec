@@ -1,18 +1,18 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.4.10
+Version:	0.4.11
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
-# Source0-md5:	e98d02faa135e33d6696b77aa715c4e6
+# Source0-md5:	9ed54f0fc222c02a69589cf478dab8bb
 URL:		http://live.gnome.org/Caribou
+BuildRequires:	at-spi2-core-devel
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clutter-devel >= 1.6.0
 BuildRequires:	gettext-devel
-BuildRequires:	at-spi2-core-devel
 BuildRequires:	glib2-devel >= 1:2.30.0
 BuildRequires:	gobject-introspection-devel >= 0.10.7
 BuildRequires:	gtk+2-devel >= 2.0.0
