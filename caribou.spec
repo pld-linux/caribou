@@ -1,12 +1,12 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.4.14
+Version:	0.4.15
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
-# Source0-md5:	472d2b8fee4081807fa5d8385365211d
+# Source0-md5:	5fe8ee58432efb5f6671ca03a9c92800
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	at-spi2-core-devel
 BuildRequires:	autoconf >= 2.63
