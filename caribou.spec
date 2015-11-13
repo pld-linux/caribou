@@ -1,14 +1,18 @@
+#
+# Conditional build:
+%bcond_without	apidocs		# Valadoc documentation
+#
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.4.17
+Version:	0.4.19
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
-# Source0-md5:	83eca257efcd7a0c4f897d657927a193
+# Source0-md5:	b2472b5001b09c6bc2d9ac3a072c0187
 URL:		http://live.gnome.org/Caribou
-BuildRequires:	at-spi2-core-devel
+BuildRequires:	at-spi2-core-devel >= 2
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clutter-devel >= 1.6.0
@@ -18,7 +22,7 @@ BuildRequires:	gobject-introspection-devel >= 0.10.7
 BuildRequires:	gtk+2-devel >= 2.0.0
 BuildRequires:	gtk+3-devel >= 3.0.0
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	libgee-devel
+BuildRequires:	libgee-devel >= 0.8
 BuildRequires:	libxklavier-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
@@ -27,16 +31,16 @@ BuildRequires:	python-pygobject3-devel >= 3.0.0
 BuildRequires:	rpmbuild(macros) >= 1.592
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.14.0
+BuildRequires:	vala-libgee >= 0.8
+# -devel is just for .pc file
+%{?with_apidocs:BuildRequires:	valadoc-devel >= 0.3.1}
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXtst-devel
 BuildRequires:	xz
-Requires(post,postun):	glib2 >= 1:2.26.0
-Requires(postun):	/sbin/ldconfig
+Requires(post,postun):	glib2 >= 1:2.30.0
 Requires:	clutter >= 1.6.0
+Requires:	glib2 >= 1:2.30.0
 Requires:	gobject-introspection >= 0.10.7
-Requires:	python-modules
-Requires:	python-pyatspi >= 2.2.0
-Requires:	python-pygobject3 >= 3.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -46,14 +50,31 @@ useful for touch screen or tablet users.
 
 %description -l pl.UTF-8
 Caribou jest klawiaturą ekranową odpowiednią dla ludzi, którzy nie
-mogą użyć zwykłej klawiatury a tylko mysz. Może być również pomocna
+mogą użyć zwykłej klawiatury, a tylko mysz. Może być również pomocna
 dla użytkowników ekranów dotykowych oraz tabletów.
+
+%package libs
+Summary:	Caribou virtual on-screen keyboard library
+Summary(pl.UTF-8):	Biblioteka wirtualnej klawiatury na ekranie Caribou
+Group:		X11/Libraries
+Conflicts:	caribou < 0.4.19
+
+%description libs
+Caribou virtual on-screen keyboard library.
+
+%description libs -l pl.UTF-8
+Biblioteka wirtualnej klawiatury na ekranie Caribou.
 
 %package devel
 Summary:	Development files for Caribou
 Summary(pl.UTF-8):	Pliki programistyczne dla Caribou
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	gtk+3-devel
+Requires:	libgee-devel >= 0.8
+Requires:	libxklavier-devel
+Requires:	libxml2-devel >= 2.0
+Requires:	xorg-lib-libXtst-devel
 
 %description devel
 This package provides development files for Caribou.
@@ -61,42 +82,84 @@ This package provides development files for Caribou.
 %description devel -l pl.UTF-8
 Ten pakiet dostarcza pliki programistyczne dla Caribou.
 
-%package -n python-caribou
-Summary:	Keyboard UI for %{name}
-Group:		Development/Languages/Python
-Requires:	%{name} = %{version}-%{release}
+%package apidocs
+Summary:	API documentation for Caribou library
+Summary(pl.UTF-8):	Dokumentacja API biblioteki Caribou
+Group:		Documentation
 
-%description  -n python-caribou
-This package contains caribou Python GUI
+%description apidocs
+API documentation for Caribou library.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API biblioteki Caribou.
+
+%package -n python-caribou
+Summary:	Keyboard UI for Caribou
+Summary(pl.UTF-8):	Interfejs użytkownika klawiatury dla Caribou
+Group:		Development/Languages/Python
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	python-modules >= 1:2.4
+Requires:	python-pyatspi >= 2.2.0
+Requires:	python-pygobject3 >= 3.0.0
+
+%description -n python-caribou
+This package contains Caribou Python GUI.
+
+%description -n python-caribou -l pl.UTF-8
+Ten pakiet zawiera graficzny interfejs użytkownika Caribou w Pythonie.
+
+%package -n vala-caribou
+Summary:	Vala API for Caribou library
+Summary(pl.UTF-8):	API języka Vala do biblioteki Caribou
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	vala >= 2:0.14.0
+Requires:	vala-libgee >= 0.8
+
+%description -n vala-caribou
+Vala API for Caribou library.
+
+%description -n vala-caribou -l pl.UTF-8
+API języka Vala do biblioteki Caribou.
 
 %package gtk2-module
-Summary:	Gtk2 im module for %{name}
+Summary:	Caribou IM module for GTK+ 2
+Summary(pl.UTF-8):	Moduł IM Caribou dla GTK+ 2
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+2
-Conflicts:	%{name} < 0.4.1-2
 
 %description gtk2-module
-This package contains caribou im module for Gtk2.
+This package contains Caribou IM module for GTK+ 2.
+
+%description gtk2-module -l pl.UTF-8
+Ten pakiet zawiera moduł IM Caribou dla GTK+ 2.
 
 %package gtk3-module
-Summary:	Gtk3 im module for %{name}
+Summary:	Caribou IM module for GTK+ 3
+Summary(pl.UTF-8):	Moduł IM Caribou dla GTK+ 3
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	gtk+3
-Conflicts:	%{name} < 0.4.1-2
 
 %description gtk3-module
-This package contains caribou im module for Gtk3.
+This package contains Caribou IM module for GTK+ 3.
+
+%description gtk3-module -l pl.UTF-8
+Ten pakiet zawiera moduł IM Caribou dla GTK+ 3.
 
 %package antler
-Summary:	Keyboard implementation for %{name}
+Summary:	Keyboard implementation for Caribou
+Summary(pl.UTF-8):	Implementacja klawiatury dla Caribou
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
-Conflicts:	%{name} < 0.4.1-2
+Requires:	python-caribou = %{version}-%{release}
 
 %description antler
-This package contains caribou keyboard implementation.
+This package contains Caribou keyboard implementation.
+
+%description antler -l pl.UTF-8
+Ten pakiet zawiera implementację klawiatury Caribou.
 
 %prep
 %setup -q
@@ -107,6 +170,7 @@ This package contains caribou keyboard implementation.
 %{__autoconf}
 %{__automake}
 %configure \
+	%{?with_apidocs:--enable-docs} \
 	--disable-silent-rules \
 	--disable-static
 %{__make}
@@ -115,7 +179,8 @@ This package contains caribou keyboard implementation.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT \
+	caribougtkdocdir=%{_gtkdocdir}/caribou
 
 %find_lang %{name}
 
@@ -127,9 +192,7 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
 %postun
-/sbin/ldconfig
 if [ $1 -eq 0 ] ; then
 	%glib_compile_schemas
 fi
@@ -137,23 +200,48 @@ fi
 %posttrans
 %glib_compile_schemas
 
+%post	libs -p /sbin/ldconfig
+%postun	libs -p /sbin/ldconfig
+
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_bindir}/caribou-preferences
-%attr(755,root,root) %{_libdir}/caribou
-%attr(755,root,root) %{_libdir}/libcaribou.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libcaribou.so.0
+%attr(755,root,root) %{_libexecdir}/caribou
 %{_datadir}/caribou
 %{_datadir}/dbus-1/services/org.gnome.Caribou.Daemon.service
 %{_datadir}/glib-2.0/schemas/org.gnome.caribou.gschema.xml
 %{_sysconfdir}/xdg/autostart/caribou-autostart.desktop
 %{_libdir}/gnome-settings-daemon-3.0/gtk-modules/caribou-gtk-module.desktop
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcaribou.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libcaribou.so.0
 %{_libdir}/girepository-1.0/Caribou-1.0.typelib
+
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libcaribou.so
+%{_includedir}/libcaribou
+%{_datadir}/gir-1.0/Caribou-1.0.gir
+%{_pkgconfigdir}/caribou-1.0.pc
+
+%if %{with apidocs}
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/caribou
+%{_datadir}/devhelp/references/caribou
+%endif
 
 %files -n python-caribou
 %defattr(644,root,root,755)
 %{py_sitescriptdir}/caribou
+
+%files -n vala-caribou
+%defattr(644,root,root,755)
+%{_datadir}/vala/vapi/caribou-1.0.deps
+%{_datadir}/vala/vapi/caribou-1.0.vapi
 
 %files gtk2-module
 %defattr(644,root,root,755)
@@ -169,13 +257,3 @@ fi
 %{_datadir}/dbus-1/services/org.gnome.Caribou.Antler.service
 %attr(755,root,root) %{_libexecdir}/antler-keyboard
 %{_datadir}/glib-2.0/schemas/org.gnome.antler.gschema.xml
-
-%files devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libcaribou.so
-%{_includedir}/libcaribou
-%{_datadir}/gir-1.0/Caribou-1.0.gir
-%{_pkgconfigdir}/caribou-1.0.pc
-%{_datadir}/vala/vapi/caribou-1.0.deps
-%{_datadir}/vala/vapi/caribou-1.0.vapi
-
