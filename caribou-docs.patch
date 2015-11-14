@@ -1,0 +1,11 @@
+--- caribou-0.4.19/docs/Makefile.am.orig	2013-02-17 03:07:44.000000000 +0100
++++ caribou-0.4.19/docs/Makefile.am	2015-11-14 08:32:35.526664784 +0100
+@@ -62,7 +62,7 @@
+ 	xtst \
+ 	gdk-3.0 \
+ 	gio-2.0 \
+-	gee-1.0 \
++	gee-0.8 \
+ 	libxklavier \
+ 	external-libs \
+ 	gdk-x11-3.0 \

@@ -11,6 +11,7 @@ License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
 # Source0-md5:	b2472b5001b09c6bc2d9ac3a072c0187
+Patch0:		%{name}-docs.patch
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	at-spi2-core-devel >= 2
 BuildRequires:	autoconf >= 2.63
@@ -163,6 +164,7 @@ Ten pakiet zawiera implementację klawiatury Caribou.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__libtoolize}
