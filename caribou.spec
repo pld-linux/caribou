@@ -1,12 +1,12 @@
 #
 # Conditional build:
 %bcond_without	apidocs		# Valadoc documentation
-#
+
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
 Version:	0.4.19
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
@@ -87,6 +87,9 @@ Ten pakiet dostarcza pliki programistyczne dla Caribou.
 Summary:	API documentation for Caribou library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki Caribou
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description apidocs
 API documentation for Caribou library.
