@@ -5,12 +5,12 @@
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
-Version:	0.4.19
-Release:	4
+Version:	0.4.21
+Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
-# Source0-md5:	b2472b5001b09c6bc2d9ac3a072c0187
+# Source0-md5:	16b76cd7453b99e2871e8d4da88bf976
 Patch0:		%{name}-docs.patch
 URL:		http://live.gnome.org/Caribou
 BuildRequires:	at-spi2-core-devel >= 2
@@ -42,6 +42,7 @@ Requires(post,postun):	glib2 >= 1:2.30.0
 Requires:	clutter >= 1.6.0
 Requires:	glib2 >= 1:2.30.0
 Requires:	gobject-introspection >= 0.10.7
+Requires:	python-caribou = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -134,7 +135,7 @@ Summary:	Caribou IM module for GTK+ 2
 Summary(pl.UTF-8):	Moduł IM Caribou dla GTK+ 2
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+2
+Requires:	gtk+2 >= 2.0.0
 
 %description gtk2-module
 This package contains Caribou IM module for GTK+ 2.
@@ -147,7 +148,7 @@ Summary:	Caribou IM module for GTK+ 3
 Summary(pl.UTF-8):	Moduł IM Caribou dla GTK+ 3
 Group:		Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	gtk+3
+Requires:	gtk+3 >= 3.0.0
 
 %description gtk3-module
 This package contains Caribou IM module for GTK+ 3.
