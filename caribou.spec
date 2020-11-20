@@ -9,10 +9,10 @@ Version:	0.4.21
 Release:	1
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/caribou/0.4/%{name}-%{version}.tar.xz
+Source0:	https://download.gnome.org/sources/caribou/0.4/%{name}-%{version}.tar.xz
 # Source0-md5:	16b76cd7453b99e2871e8d4da88bf976
 Patch0:		%{name}-docs.patch
-URL:		http://live.gnome.org/Caribou
+URL:		https://wiki.gnome.org/Projects/Caribou
 BuildRequires:	at-spi2-core-devel >= 2
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -29,7 +29,7 @@ BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
 BuildRequires:	python-pygobject3-devel >= 3.0.0
-BuildRequires:	rpmbuild(macros) >= 1.592
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.14.0
 BuildRequires:	vala-libgee >= 0.8
@@ -88,9 +88,7 @@ Ten pakiet dostarcza pliki programistyczne dla Caribou.
 Summary:	API documentation for Caribou library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki Caribou
 Group:		Documentation
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description apidocs
 API documentation for Caribou library.
@@ -120,9 +118,7 @@ Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.14.0
 Requires:	vala-libgee >= 0.8
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description -n vala-caribou
 Vala API for Caribou library.
