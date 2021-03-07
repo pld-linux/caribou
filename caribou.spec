@@ -88,7 +88,7 @@ Ten pakiet dostarcza pliki programistyczne dla Caribou.
 Summary:	API documentation for Caribou library
 Summary(pl.UTF-8):	Dokumentacja API biblioteki Caribou
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation for Caribou library.
@@ -118,7 +118,7 @@ Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.14.0
 Requires:	vala-libgee >= 0.8
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description -n vala-caribou
 Vala API for Caribou library.
