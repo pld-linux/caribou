@@ -1,0 +1,70 @@
+--- caribou-0.4.21/libcaribou/keyboard-model.c~	2016-07-20 07:13:28.000000000 +0200
++++ caribou-0.4.21/libcaribou/keyboard-model.c	2025-08-24 20:58:58.846844082 +0200
+@@ -545,7 +545,7 @@ gchar** caribou_keyboard_model_get_group
+ 	gint _tmp7__length1 = 0;
+ 	g_return_val_if_fail (self != NULL, NULL);
+ 	_tmp0_ = self->priv->groups;
+-	_tmp1_ = gee_abstract_map_get_keys ((GeeMap*) _tmp0_);
++	_tmp1_ = gee_abstract_map_get_keys ((GeeAbstractMap*) _tmp0_);
+ 	_tmp2_ = _tmp1_;
+ 	_tmp3_ = _tmp2_;
+ 	_tmp5_ = gee_collection_to_array ((GeeCollection*) _tmp3_, &_tmp4_);
+@@ -636,7 +636,7 @@ static CaribouIKeyboardObject** caribou_
+ 	gint _tmp7__length1 = 0;
+ 	self = (CaribouKeyboardModel*) base;
+ 	_tmp0_ = self->priv->groups;
+-	_tmp1_ = gee_abstract_map_get_values ((GeeMap*) _tmp0_);
++	_tmp1_ = gee_abstract_map_get_values ((GeeAbstractMap*) _tmp0_);
+ 	_tmp2_ = _tmp1_;
+ 	_tmp3_ = _tmp2_;
+ 	_tmp5_ = gee_collection_to_array (_tmp3_, &_tmp4_);
+--- caribou-0.4.21/modules/gtk3/caribou-gtk-module.c~	2016-07-20 07:13:31.000000000 +0200
++++ caribou-0.4.21/modules/gtk3/caribou-gtk-module.c	2025-08-24 21:08:55.453671154 +0200
+@@ -596,8 +596,8 @@ static void caribou_gtk_module_callback
+ 		CaribouKeyboard* _tmp3_ = NULL;
+ 		CaribouKeyboard* _tmp4_ = NULL;
+ 		_tmp1_ = res;
+-		_tmp2_ = g_async_result_get_source_object (_tmp1_);
+-		_tmp3_ = g_async_initable_new_finish (_tmp2_, _tmp1_, &_inner_error_);
++		_tmp2_ = (CaribouKeyboard *)g_async_result_get_source_object (_tmp1_);
++		_tmp3_ = (CaribouKeyboard *)g_async_initable_new_finish ((GAsyncInitable *)_tmp2_, _tmp1_, &_inner_error_);
+ 		g_object_unref (_tmp2_);
+ 		_tmp0_ = (CaribouKeyboard*) _tmp3_;
+ 		if (G_UNLIKELY (_inner_error_ != NULL)) {
+--- caribou-0.4.21/modules/gtk2/caribou-gtk-module.c.org	2025-08-24 21:09:50.287325594 +0200
++++ caribou-0.4.21/modules/gtk2/caribou-gtk-module.c	2025-08-24 21:11:03.307753162 +0200
+@@ -600,8 +600,8 @@ static void caribou_gtk_module_callback
+ 		CaribouKeyboard* _tmp3_ = NULL;
+ 		CaribouKeyboard* _tmp4_ = NULL;
+ 		_tmp1_ = res;
+-		_tmp2_ = g_async_result_get_source_object (_tmp1_);
+-		_tmp3_ = g_async_initable_new_finish (_tmp2_, _tmp1_, &_inner_error_);
++		_tmp2_ = (CaribouKeyboard *)g_async_result_get_source_object (_tmp1_);
++		_tmp3_ = (CaribouKeyboard *)g_async_initable_new_finish ((GAsyncInitable *)_tmp2_, _tmp1_, &_inner_error_);
+ 		g_object_unref (_tmp2_);
+ 		_tmp0_ = (CaribouKeyboard*) _tmp3_;
+ 		if (G_UNLIKELY (_inner_error_ != NULL)) {
+--- caribou-0.4.21/daemon/daemon.c~	2025-08-24 21:24:50.000000000 +0200
++++ caribou-0.4.21/daemon/daemon.c	2025-08-24 21:25:16.292742840 +0200
+@@ -573,7 +573,7 @@ CaribouDaemon* caribou_daemon_construct
+ 	self = (CaribouDaemon*) g_object_new (object_type, NULL);
+ 	_tmp0_ = gdk_display_get_default ();
+ 	self->priv->display = _tmp0_;
+-	_tmp1_ = g_bus_own_name_with_closures (G_BUS_TYPE_SESSION, "org.gnome.Caribou.Daemon", G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT | G_BUS_NAME_OWNER_FLAGS_REPLACE, (GClosure*) ((_caribou_daemon_on_bus_acquired_gbus_acquired_callback == NULL) ? NULL : g_cclosure_new ((GCallback) _caribou_daemon_on_bus_acquired_gbus_acquired_callback, g_object_ref (self), g_object_unref)), (GClosure*) ((NULL == NULL) ? NULL : g_cclosure_new ((GCallback) NULL, NULL, NULL)), (GClosure*) ((_caribou_daemon_quit_gbus_name_lost_callback == NULL) ? NULL : g_cclosure_new ((GCallback) _caribou_daemon_quit_gbus_name_lost_callback, g_object_ref (self), g_object_unref)));
++	_tmp1_ = g_bus_own_name_with_closures (G_BUS_TYPE_SESSION, "org.gnome.Caribou.Daemon", G_BUS_NAME_OWNER_FLAGS_ALLOW_REPLACEMENT | G_BUS_NAME_OWNER_FLAGS_REPLACE, (GClosure*) ((_caribou_daemon_on_bus_acquired_gbus_acquired_callback == NULL) ? NULL : g_cclosure_new ((GCallback) _caribou_daemon_on_bus_acquired_gbus_acquired_callback, g_object_ref (self), (GClosureNotify)g_object_unref)), (GClosure*) ((NULL == NULL) ? NULL : g_cclosure_new ((GCallback) NULL, NULL, NULL)), (GClosure*) ((_caribou_daemon_quit_gbus_name_lost_callback == NULL) ? NULL : g_cclosure_new ((GCallback) _caribou_daemon_quit_gbus_name_lost_callback, g_object_ref (self), (GClosureNotify)g_object_unref)));
+ 	self->priv->name_id = _tmp1_;
+ 	return self;
+ }
+--- caribou-0.4.21/daemon/daemon.c~	2025-08-24 21:26:42.000000000 +0200
++++ caribou-0.4.21/daemon/daemon.c	2025-08-24 21:28:48.167315462 +0200
+@@ -632,8 +632,8 @@ static void caribou_daemon_on_get_proxy_
+ 		Caribou_Keyboard* _tmp3_ = NULL;
+ 		Caribou_Keyboard* _tmp4_ = NULL;
+ 		_tmp1_ = res;
+-		_tmp2_ = g_async_result_get_source_object (_tmp1_);
+-		_tmp3_ = g_async_initable_new_finish (_tmp2_, _tmp1_, &_inner_error_);
++		_tmp2_ = (Caribou_Keyboard *)g_async_result_get_source_object (_tmp1_);
++		_tmp3_ = (Caribou_Keyboard *)g_async_initable_new_finish ((GAsyncInitable *)_tmp2_, _tmp1_, &_inner_error_);
+ 		g_object_unref (_tmp2_);
+ 		_tmp0_ = (Caribou_Keyboard*) _tmp3_;
+ 		if (G_UNLIKELY (_inner_error_ != NULL)) {

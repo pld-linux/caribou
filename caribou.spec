@@ -1,17 +1,24 @@
 #
 # Conditional build:
-%bcond_without	apidocs		# Valadoc documentation
+%bcond_with	apidocs		# Valadoc documentation
 
 Summary:	On-screen keyboard
 Summary(pl.UTF-8):	Klawiatura ekranowa
 Name:		caribou
 Version:	0.4.21
-Release:	2
+Release:	3
 License:	LGPL v2+
 Group:		X11/Applications/Accessibility
 Source0:	https://download.gnome.org/sources/caribou/0.4/%{name}-%{version}.tar.xz
 # Source0-md5:	16b76cd7453b99e2871e8d4da88bf976
 Patch0:		%{name}-docs.patch
+Patch1:		autostart-set-nodisplay.patch
+Patch2:		fix-font-property-in-style.css.patch
+Patch3:		Fix-compilation-error.patch
+Patch4:		Fix-subkey-popmenu-not-showing-after-being-dismissed.patch
+Patch5:		xadapter.vala-Remove-XkbKeyTypesMask-and-f.patch
+Patch6:		stop-patching-generated-gir.patch
+Patch7:		build.patch
 URL:		https://wiki.gnome.org/Projects/Caribou
 BuildRequires:	at-spi2-core-devel >= 2
 BuildRequires:	autoconf >= 2.63
@@ -27,8 +34,8 @@ BuildRequires:	libgee-devel >= 0.8
 BuildRequires:	libxklavier-devel
 BuildRequires:	libxml2-devel
 BuildRequires:	pkgconfig
-BuildRequires:	python >= 1:2.4
-BuildRequires:	python-pygobject3-devel >= 3.0.0
+BuildRequires:	python3 >= 1:2.4
+BuildRequires:	python3-pygobject3-devel >= 3.0.0
 BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.14.0
@@ -42,7 +49,7 @@ Requires(post,postun):	glib2 >= 1:2.30.0
 Requires:	clutter >= 1.6.0
 Requires:	glib2 >= 1:2.30.0
 Requires:	gobject-introspection >= 0.10.7
-Requires:	python-caribou = %{version}-%{release}
+Requires:	python3-caribou = %{version}-%{release}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -96,19 +103,19 @@ API documentation for Caribou library.
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki Caribou.
 
-%package -n python-caribou
+%package -n python3-caribou
 Summary:	Keyboard UI for Caribou
 Summary(pl.UTF-8):	Interfejs użytkownika klawiatury dla Caribou
 Group:		Development/Languages/Python
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	python-modules >= 1:2.4
-Requires:	python-pyatspi >= 2.2.0
-Requires:	python-pygobject3 >= 3.0.0
+Requires:	python3-modules >= 1:2.4
+Requires:	python3-pyatspi >= 2.2.0
+Requires:	python3-pygobject3 >= 3.0.0
 
-%description -n python-caribou
+%description -n python3-caribou
 This package contains Caribou Python GUI.
 
-%description -n python-caribou -l pl.UTF-8
+%description -n python3-caribou -l pl.UTF-8
 Ten pakiet zawiera graficzny interfejs użytkownika Caribou w Pythonie.
 
 %package -n vala-caribou
@@ -157,7 +164,7 @@ Summary:	Keyboard implementation for Caribou
 Summary(pl.UTF-8):	Implementacja klawiatury dla Caribou
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-caribou = %{version}-%{release}
+Requires:	python3-caribou = %{version}-%{release}
 
 %description antler
 This package contains Caribou keyboard implementation.
@@ -168,6 +175,13 @@ Ten pakiet zawiera implementację klawiatury Caribou.
 %prep
 %setup -q
 %patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P5 -p1
+%patch -P6 -p1
+%patch -P7 -p1
 
 %build
 %{__libtoolize}
@@ -175,6 +189,7 @@ Ten pakiet zawiera implementację klawiatury Caribou.
 %{__autoconf}
 %{__automake}
 %configure \
+	PYTHON="%{__python3}" \
 	%{?with_apidocs:--enable-docs} \
 	--disable-silent-rules \
 	--disable-static
@@ -239,9 +254,9 @@ fi
 %{_datadir}/devhelp/references/caribou
 %endif
 
-%files -n python-caribou
+%files -n python3-caribou
 %defattr(644,root,root,755)
-%{py_sitescriptdir}/caribou
+%{py3_sitescriptdir}/caribou
 
 %files -n vala-caribou
 %defattr(644,root,root,755)
